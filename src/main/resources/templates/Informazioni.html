@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/Informazioni.css">
+    <link th:href="@{/css/Informazioni.css}" rel="stylesheet">
+    <object  th:replace="fragments/base.html :: headerfiles()"/>
+</head>
+<body>
+
+	<header th:replace="fragments/base.html :: intestazione3"></header>
+    <div class="page">
+       
+
+        <div class="sfondoNero"></div>
+
+        <div class="content">
+            <div class="mappa" >
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2971.746588022043!2d12.4675636!3d41.855281!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13258a922b3edaeb%3A0xd7c1990833e3ea29!2sIngegneria%20Informatica%20-%20Universit%C3%A0%20Roma%20Tre!5e0!3m2!1sit!2sit!4v1621877569882!5m2!1sit!2sit" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div class="interno">
+                <h3>Orari di apertura</h3>
+                <div class="col">
+                    <div class="riga"><p class="componente">lun-gio</p>   <p class="componente">9:00 - 23:00</p></div>
+                    <div class="riga"><p class="componente">ven-dom</p>   <p class="componente">9:00 - 03:00</p></div>
+                </div>
+                <h3>Contatti</h3>
+                <div class="col">
+                    <div class="riga"><p class="componente piccolo">fisso:</p>   <p class="componente num">0611111111</p></div>
+                    <div class="riga"><p class="componente piccolo">cell:</p>   <p class="componente num">+393333333333</p></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+     <footer th:replace="fragments/base.html :: fondo"></footer>
+</body>
+</html>

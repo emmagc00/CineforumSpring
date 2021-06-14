@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link th:href="@{/css/Inserimento.css}" rel="stylesheet">
+	<object th:replace="fragments/base.html :: headerfiles()" />
+</head>
+
+<body>
+	<header th:replace="fragments/base.html :: intestazione4"></header>
+
+
+	<form th:action="@{/removeProiezione}" method="POST" class="form page" enctype="multipart/form-data">
+		<div>
+		<h4 class="nomeCampo">Inserisci i dati della proiezione che vuoi cancellare</h4>
+			<div>
+				<span class="nomeCampo">Sala:</span>
+				<span class="contenuto"><input type="text" name="sala" /></span>
+				<!--<span th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}"></span>-->
+			</div>		
+            <div>
+				<span class="nomeCampo">Data:</span>
+				<span class="contenuto"><input type="text" name="data" /></span>
+				<!--<span th:if="${#fields.hasErrors('anno')}" th:errors="*{anno}"></span>-->
+			</div>
+			 <div>
+				<span class="nomeCampo">Ora:</span>
+				<span class="contenuto"><input type="text" name="ora" /></span>
+				<!--<span th:if="${#fields.hasErrors('anno')}" th:errors="*{anno}"></span>-->
+			</div>
+			<div>
+				<span class="bottoniConferma"><button type="submit">Invio</button></span>
+			</div>
+		</div>
+	</form>	
+    <footer th:replace="fragments/base.html :: fondo"></footer>
+    
+</body>
+</html>

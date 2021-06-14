@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link th:href="@{/css/Inserimento.css}" rel="stylesheet">
+	<object  th:replace="fragments/base.html :: headerfiles()"/>
+    <link href="../static/css/Inserimento.css" rel="stylesheet"/>
+</head>
+
+<body>
+	<header th:replace="fragments/base.html :: intestazione3"></header>
+	
+	<form class="page form" th:action="@{/login}" method="POST">
+		
+		<div>
+			<h4 class="nomeCampo">Login</h4>
+			<div>
+				<span class="nomeCampo">Username:</span>
+				<span class="contenuto"><input name="username" type="text" required /></span>
+			</div>		
+			<div>
+				<span class="nomeCampo">Password:</span>
+				<span class="contenuto"><input name="password" type="password" required /></span>
+			</div>
+           	<div>
+				<span class="bottoniConferma"><button type="submit">Invio</button></span>
+			</div>
+			<span>Se non sei ancora iscritto</span>
+			<a th:href="@{'/register'}"> REGISTRATI </a>
+		</div>
+	</form>
+    <footer th:replace="fragments/base.html :: fondo"></footer>
+</body>
+</html>
