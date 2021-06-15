@@ -74,7 +74,7 @@ public class AttoreController {
 	}
 	
 	@RequestMapping(value = "/removeAttore", method = RequestMethod.POST)
-	public String removeRegista(@RequestParam("nome") String nome, 
+	public String removeAttore(@RequestParam("nome") String nome, 
 			@RequestParam("cognome") String cognome, Model model)
 	{
 		logger.info("removeAttore");
@@ -83,10 +83,11 @@ public class AttoreController {
 			a = this.attoreService.attorePerNomeECognome(nome, cognome).get(0);
 			this.attoreService.elimina(a);
 			logger.info("attore rimosso dal DB");
+			return "admin/successoOperazioneAdmin.html";
 		} catch (Exception e) {
 			logger.info("attore NON rimosso dal DB");
 		}
-		return "admin/successoOperazioneAdmin.html";
+		return "admin/cancellazioneAttore.html";
 	}
 	
 }

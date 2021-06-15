@@ -83,10 +83,11 @@ public class RegistaController {
 			r = this.registaService.registaPerNomeECognome(nome, cognome).get(0);
 			this.registaService.elimina(r);
 			logger.info("regista rimosso dal DB");
+			return "admin/successoOperazioneAdmin.html";
 		} catch (Exception e) {
 			logger.info("regista NON rimosso dal DB");
 		}
-		return "admin/successoOperazioneAdmin.html";
+		return "admin/cancellazioneRegista.html";
 	}
 	
 }

@@ -80,10 +80,11 @@ public class ProiezioneController {
 			p = this.proiezioneService.proiezioniPerSalaDataOra(sala, data, orario).get(0);
 			this.proiezioneService.elimina(p);
 			logger.debug("proiezione rimossa dal DB");
+			return "admin/successoOperazioneAdmin.html";
 		} catch (Exception e) {
 			
 		}
-		return "admin/successoOperazioneAdmin.html";
+		return "admin/cancellazioneProiezione.html";
 	}
 	
 //	@RequestMapping(value = "/collezione/{id}", method = RequestMethod.GET)

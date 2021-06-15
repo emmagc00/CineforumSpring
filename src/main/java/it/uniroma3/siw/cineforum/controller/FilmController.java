@@ -96,10 +96,11 @@ public class FilmController {
 			f = this.filmService.filmPerTitoloEAnnoUscita(titolo, annoUscita).get(0);
 			this.filmService.elimina(f);
 			logger.info("film rimosso dal DB");
+			return "admin/successoOperazioneAdmin.html";
 		} catch (Exception e) {
 			logger.info("film NON rimosso dal DB");
 		}
-		return "admin/successoOperazioneAdmin.html";
+		return "admin/cancellazioneFilm.html";
 	}
 	
 	@RequestMapping(value="/addCast", method = RequestMethod.GET)
