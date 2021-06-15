@@ -25,12 +25,10 @@ public @Data abstract class Persona {
 	@NonNull
 	private String cognome;
 
-	@NonNull
 	private LocalDate dataNascita;
 	
 	private LocalDate dataMorte;
 
-	@NonNull
 	private String luogoNascita;
 	
 	private String luogoMorte;

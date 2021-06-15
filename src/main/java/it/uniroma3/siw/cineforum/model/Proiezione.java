@@ -26,13 +26,10 @@ public @Data class Proiezione {
 	@NonNull
 	private String sala;
 	
-	@NonNull
 	private Integer postiTotali;
 	
-	@NonNull
 	private LocalDate data;
 	
-	@NonNull
 	private LocalTime orario;
 
 	/*ASSOCIAZIONI*/

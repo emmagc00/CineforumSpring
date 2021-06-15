@@ -29,7 +29,6 @@ public @Data class Film {
 	@NonNull
 	private String trama;
 	
-	@NonNull
 	private Integer annoUscita;
 	
 	@Lob

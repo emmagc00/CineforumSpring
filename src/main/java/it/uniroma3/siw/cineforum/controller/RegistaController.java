@@ -9,12 +9,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import it.uniroma3.siw.cineforum.controller.validator.RegistaValidator;
 import it.uniroma3.siw.cineforum.model.Regista;
 import it.uniroma3.siw.cineforum.service.RegistaService;
 
@@ -24,6 +26,9 @@ public class RegistaController {
 
 	@Autowired
 	private RegistaService registaService;
+	
+	@Autowired
+	private RegistaValidator registaValidator;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -34,18 +39,32 @@ public class RegistaController {
 	}
 
 	@RequestMapping(value = "/addRegista", method = RequestMethod.POST)
-	public String saveRegista(@RequestParam("file") MultipartFile file,
+	public String saveRegista(@ModelAttribute("attore") Regista r,
+			@RequestParam("file") MultipartFile file,
 			@RequestParam("nome") String nome,
 			@RequestParam("cognome") String cognome,
-			@RequestParam("dataDiNascita") @DateTimeFormat(iso = ISO.DATE) LocalDate dataDiNascita,
-			@RequestParam("dataDiMorte") @DateTimeFormat(iso = ISO.DATE) LocalDate dataDiMorte,
+			@RequestParam(value="dataDiNascita", required=false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataDiNascita,
+			@RequestParam(value="dataDiMorte", required=false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataDiMorte,
 			@RequestParam("luogoDiNascita") String luogoDiNascita,
 			@RequestParam("luogoDiMorte") String luogoDiMorte,
-			Model model)
+			Model model, BindingResult bindingResult)
 	{
-		this.registaService.saveRegistaToDB(file, nome, cognome, dataDiNascita, dataDiMorte,
-                 luogoDiNascita, luogoDiMorte);
-		return "admin/successoOperazioneAdmin.html";
+		
+		r.setNome(nome);
+		r.setCognome(cognome);
+		
+		this.registaValidator.validate(r, bindingResult);
+		logger.info("validato");
+		if (!bindingResult.hasErrors()) { 
+			this.registaService.saveRegistaToDB(file, nome, cognome, dataDiNascita, dataDiMorte,
+	                 luogoDiNascita, luogoDiMorte);
+			return "admin/successoOperazioneAdmin.html";
+		}
+		logger.info("non valido");
+		return "admin/inserimentoRegista.html";
+		
+		
+		
 	}
 	
 	@RequestMapping(value="/removeRegista", method = RequestMethod.GET)

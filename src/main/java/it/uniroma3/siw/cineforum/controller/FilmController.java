@@ -5,12 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siw.cineforum.controller.validator.FilmValidator;
 import it.uniroma3.siw.cineforum.model.Film;
 import it.uniroma3.siw.cineforum.service.AttoreService;
 import it.uniroma3.siw.cineforum.service.FilmService;
@@ -22,6 +25,9 @@ public class FilmController {
 
 	@Autowired
 	private FilmService filmService;
+
+	@Autowired
+	private FilmValidator filmValidator;
 	
 	@Autowired
 	private ProiezioneService proiezioneService;
@@ -42,17 +48,36 @@ public class FilmController {
 	}
 
 	@RequestMapping(value = "/addFilm", method = RequestMethod.POST)
-	public String saveFilm(@RequestParam("file") MultipartFile file,
+	public String saveFilm(@ModelAttribute("attore") Film f,
+			@RequestParam("file") MultipartFile file,
 			@RequestParam("titolo") String titolo,
 			@RequestParam("trama") String trama,
-			@RequestParam("annoUscita") Integer annoUscita,
+			@RequestParam(value="annoUscita", required=false) Integer annoUscita,
 			@RequestParam("nomeRegista") String nomeRegista,
 			@RequestParam("cognomeRegista") String cognomeRegista,
-			Model model)
+			Model model, BindingResult bindingResult)
 	{
-		this.filmService.saveFilmToDB(file, titolo, trama, annoUscita, nomeRegista, cognomeRegista);
-		logger.debug("film inserito nel DB");
-		return "admin/successoOperazioneAdmin.html";
+		
+		
+		f.setTitolo(titolo);
+		f.setTrama(trama);
+		f.setAnnoUscita(annoUscita);
+		f.setFoto(file.toString());
+		
+		this.filmValidator.validate(f, bindingResult);
+		logger.info("validato");
+		if (!bindingResult.hasErrors()) { 
+			this.filmService.saveFilmToDB(file, titolo, trama, annoUscita, nomeRegista, cognomeRegista);
+			logger.debug("film inserito nel DB");
+			return "admin/successoOperazioneAdmin.html";
+		}
+		else {
+			logger.info("non valido");
+			return "admin/inserimentoFilm.html";
+		}
+		
+		
+		
 	}
 	
 	@RequestMapping(value="/removeFilm", method = RequestMethod.GET)
@@ -85,7 +110,7 @@ public class FilmController {
 
 	@RequestMapping(value = "/addCast", method = RequestMethod.POST)
 	public String saveCast(@RequestParam("titolo") String titolo,
-			@RequestParam("annoUscita") Integer annoUscita,
+			@RequestParam(value="annoUscita", required=false) Integer annoUscita,
 			@RequestParam("nome") String nomeAttore,
 			@RequestParam("cognome") String cognomeAttore,
 			Model model)

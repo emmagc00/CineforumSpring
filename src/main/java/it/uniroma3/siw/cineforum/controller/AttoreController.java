@@ -9,11 +9,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siw.cineforum.controller.validator.AttoreValidator;
 import it.uniroma3.siw.cineforum.model.Attore;
 import it.uniroma3.siw.cineforum.service.AttoreService;
 
@@ -23,6 +26,9 @@ public class AttoreController {
 
 	@Autowired
 	private AttoreService attoreService;
+	
+	@Autowired 
+	private AttoreValidator attoreValidator;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -33,18 +39,32 @@ public class AttoreController {
 	}
 
 	@RequestMapping(value = "/addAttore", method = RequestMethod.POST)
-	public String saveAttore(@RequestParam("file") MultipartFile file,
+	public String saveAttore(@ModelAttribute("attore") Attore a,
+			@RequestParam("file") MultipartFile file,
 			@RequestParam("nome") String nome,
 			@RequestParam("cognome") String cognome,
-			@RequestParam("dataDiNascita") @DateTimeFormat(iso = ISO.DATE) LocalDate dataDiNascita,
-			@RequestParam("dataDiMorte") @DateTimeFormat(iso = ISO.DATE) LocalDate dataDiMorte,
+			@RequestParam(value="dataDiNascita", required=false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataDiNascita,
+			@RequestParam(value="dataDiMorte", required=false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataDiMorte,
 			@RequestParam("luogoDiNascita") String luogoDiNascita,
 			@RequestParam("luogoDiMorte") String luogoDiMorte,
-			Model model)
+			Model model, BindingResult bindingResult)
 	{
-		this.attoreService.saveAttoreToDB(file, nome, cognome, dataDiNascita, dataDiMorte,
-                 luogoDiNascita, luogoDiMorte);
-		return "admin/successoOperazioneAdmin.html";
+		
+		a.setNome(nome);
+		a.setCognome(cognome);
+		
+		this.attoreValidator.validate(a, bindingResult);
+		logger.info("validato");
+		if (!bindingResult.hasErrors()) { 
+			this.attoreService.saveAttoreToDB(file, nome, cognome, dataDiNascita, dataDiMorte,
+	                 luogoDiNascita, luogoDiMorte);
+			logger.info("valido");
+			return "admin/successoOperazioneAdmin.html";
+		}
+		logger.info("non valido");
+		return "admin/inserimentoAttore.html";
+		
+		
 	}
 	
 	@RequestMapping(value="/removeAttore", method = RequestMethod.GET)

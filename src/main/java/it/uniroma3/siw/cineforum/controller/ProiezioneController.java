@@ -10,10 +10,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import it.uniroma3.siw.cineforum.controller.validator.ProiezioneValidator;
 import it.uniroma3.siw.cineforum.model.Proiezione;
 import it.uniroma3.siw.cineforum.service.ProiezioneService;
 
@@ -22,6 +25,9 @@ public class ProiezioneController {
 
 	@Autowired
 	private ProiezioneService proiezioneService;
+	
+	@Autowired
+	private ProiezioneValidator proiezioneValidator;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -32,16 +38,29 @@ public class ProiezioneController {
 	}
 
 	@RequestMapping(value = "/addProiezione", method = RequestMethod.POST)
-	public String saveProiezione(@RequestParam("sala") String sala,
-			@RequestParam("postiTotali") Integer postiTotali,
-			@RequestParam("data") @DateTimeFormat(iso = ISO.DATE) LocalDate data,
-			@RequestParam("orario") @DateTimeFormat(iso = ISO.TIME) LocalTime orario,
+	public String saveProiezione(@ModelAttribute("attore") Proiezione p,
+			@RequestParam("sala") String sala,
+			@RequestParam(value="postiTotali", required=false) Integer postiTotali,
+			@RequestParam(value="data", required=false) @DateTimeFormat(iso = ISO.DATE) LocalDate data,
+			@RequestParam(value="orario", required=false) @DateTimeFormat(iso = ISO.TIME) LocalTime orario,
 			@RequestParam("nomeFilm") String nomeFilm,
-			@RequestParam("annoFilm") Integer annoFilm,
-			Model model)
+			@RequestParam(value="annoFilm", required=false) Integer annoFilm,
+			Model model, BindingResult bindingResult)
 	{
-		this.proiezioneService.saveProiezioneToDB(sala, postiTotali, data, orario, nomeFilm, annoFilm);
-		return "admin/successoOperazioneAdmin.html";
+		
+		p.setSala(sala);
+		p.setPostiTotali(postiTotali);
+		
+		this.proiezioneValidator.validate(p, bindingResult);
+		logger.info("validato");
+		if (!bindingResult.hasErrors()) { 
+			this.proiezioneService.saveProiezioneToDB(sala, postiTotali, data, orario, nomeFilm, annoFilm);
+			return "admin/successoOperazioneAdmin.html";
+		}
+		logger.info("non valido");
+		return "admin/inserimentoProiezione.html";
+			
+		
 	}
 	
 	@RequestMapping(value="/removeProiezione", method = RequestMethod.GET)

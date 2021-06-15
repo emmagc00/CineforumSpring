@@ -51,7 +51,7 @@ public class FilmService {
 			f.setFoto(Base64.getEncoder().encodeToString(file.getBytes()));
 		} 
 		catch (IOException e) {
-			e.printStackTrace();
+			logger.info("foto non trovata");
 		}
 		
 		Regista r;
