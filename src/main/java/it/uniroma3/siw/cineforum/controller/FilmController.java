@@ -116,9 +116,13 @@ public class FilmController {
 			@RequestParam("cognome") String cognomeAttore,
 			Model model)
 	{
-		this.filmService.inserisciCast(titolo, annoUscita, nomeAttore, cognomeAttore);
-		logger.debug("cast inserito nel DB");
-		return "admin/successoOperazioneAdmin.html";
+		if (this.filmService.inserisciCast(titolo, annoUscita, nomeAttore, cognomeAttore)) {
+			logger.debug("cast inserito nel DB");
+			return "admin/successoOperazioneAdmin.html";
+		}
+		logger.debug("cast non inserito nel DB");
+		return "admin/inserimentoCast.html";
+		
 	}
 	
 	@RequestMapping(value = "/schedaFilm/{id}", method = RequestMethod.GET)

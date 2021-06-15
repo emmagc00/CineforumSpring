@@ -130,7 +130,7 @@ public class FilmService {
 	}
 	
 	@Transactional
-	public Film inserisciCast(String titolo, Integer annoUscita, String nome, String cognome) {
+	public boolean inserisciCast(String titolo, Integer annoUscita, String nome, String cognome) {
 		
 		/* Ricerca del film */
 		Film f;
@@ -161,8 +161,9 @@ public class FilmService {
 			f.addAttore(a);
 			this.filmRepository.save(f);
 			logger.info("collegamento realizzato");
+			return true;
 		}
 		
-		return f;
+		return false;
 	}
 }
