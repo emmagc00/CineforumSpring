@@ -71,8 +71,8 @@ public class ProiezioneController {
 	
 	@RequestMapping(value = "/removeProiezione", method = RequestMethod.POST)
 	public String removeProiezione(@RequestParam("sala") String sala,
-			@RequestParam("data") @DateTimeFormat(iso = ISO.DATE) LocalDate data,
-			@RequestParam("ora") @DateTimeFormat(iso = ISO.TIME) LocalTime orario,
+			@RequestParam(value="data", required=false) @DateTimeFormat(iso = ISO.DATE) LocalDate data,
+			@RequestParam(value="ora", required=false) @DateTimeFormat(iso = ISO.TIME) LocalTime orario,
 			Model model)
 	{
 		Proiezione p;

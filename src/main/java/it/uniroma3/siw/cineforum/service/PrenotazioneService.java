@@ -90,9 +90,12 @@ public class PrenotazioneService {
 	}
 	
 
-	public void cancellaPrenotazione(Long idPrenotazione) {
-		this.prenotazioneRepository.delete(this.prenotazionePerId(idPrenotazione));
-		
+	public boolean cancellaPrenotazione(Long idPrenotazione) {
+		if (idPrenotazione != null) {
+			this.prenotazioneRepository.delete(this.prenotazionePerId(idPrenotazione));
+			return true;
+		}
+		return false;
 	}
 	
 }

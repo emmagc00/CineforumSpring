@@ -47,9 +47,11 @@ public class HomePrenotazioneController {
 	}
 	
 	@RequestMapping(value = "/cancellaPrenotazione", method = RequestMethod.POST) 
-	public String cancella (@RequestParam("idPrenotazione") Long idPrenotazione, Model model) {
-		this.prenotazioneService.cancellaPrenotazione(idPrenotazione);
-		return "successoOperazione.html";
+	public String cancella (@RequestParam(value="idPrenotazione", required=false) Long idPrenotazione, Model model) {
+		if (this.prenotazioneService.cancellaPrenotazione(idPrenotazione))
+			return "successoOperazione.html";
+		else
+			return "homePrenotazioni.html";
 	}
 	
 	@RequestMapping(value = "/prenotazione", method = RequestMethod.POST)

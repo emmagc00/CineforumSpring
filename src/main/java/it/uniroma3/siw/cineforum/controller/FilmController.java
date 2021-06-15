@@ -88,7 +88,7 @@ public class FilmController {
 	
 	@RequestMapping(value = "/removeFilm", method = RequestMethod.POST)
 	public String removeFilm(@RequestParam("titolo") String titolo, 
-			@RequestParam("annoUscita") Integer annoUscita, Model model)
+			@RequestParam(value="annoUscita", required=false) Integer annoUscita, Model model)
 	{
 		logger.info("removeFilm");
 		Film f;
