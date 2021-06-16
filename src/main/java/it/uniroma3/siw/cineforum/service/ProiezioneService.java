@@ -1,7 +1,5 @@
 package it.uniroma3.siw.cineforum.service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +23,8 @@ public class ProiezioneService {
 	private FilmRepository filmRepository; 
 	
 	@Transactional
-	public Proiezione saveProiezioneToDB(String sala, Integer postiTotali, LocalDate data, 
-			LocalTime orario, String nomeFilm, Integer annoFilm) {
+	public Proiezione saveProiezioneToDB(String sala, Integer postiTotali, String data, 
+			String orario, String nomeFilm, Integer annoFilm) {
 		
 		Proiezione p = new Proiezione();
 
@@ -86,7 +84,7 @@ public class ProiezioneService {
 	}
 	
 	@Transactional
-	public List<Proiezione> proiezioniPerData(LocalDate data) {
+	public List<Proiezione> proiezioniPerData(String data) {
 		return this.proiezioneRepository.findByData(data);
 	}
 	
@@ -96,12 +94,12 @@ public class ProiezioneService {
 	}
 	
 	@Transactional
-	public List<Proiezione> proiezioniPerOrario(LocalTime orario) {
+	public List<Proiezione> proiezioniPerOrario(String orario) {
 		return this.proiezioneRepository.findByOrario(orario);
 	}
 	
 	@Transactional
-	public List<Proiezione> proiezioniPerSalaDataOra(String sala, LocalDate data, LocalTime ora) {
+	public List<Proiezione> proiezioniPerSalaDataOra(String sala, String data, String ora) {
 		return this.proiezioneRepository.findBySalaAndDataAndOrario(sala,data,ora);
 	}
 	

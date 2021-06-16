@@ -1,13 +1,9 @@
 package it.uniroma3.siw.cineforum.controller;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,11 +34,11 @@ public class ProiezioneController {
 	}
 
 	@RequestMapping(value = "/addProiezione", method = RequestMethod.POST)
-	public String saveProiezione(@ModelAttribute("attore") Proiezione p,
+	public String saveProiezione(@ModelAttribute("proiezione") Proiezione p,
 			@RequestParam("sala") String sala,
 			@RequestParam(value="postiTotali", required=false) Integer postiTotali,
-			@RequestParam(value="data", required=false) @DateTimeFormat(iso = ISO.DATE) LocalDate data,
-			@RequestParam(value="orario", required=false) @DateTimeFormat(iso = ISO.TIME) LocalTime orario,
+			@RequestParam(value="data", required=false) String data,
+			@RequestParam(value="orario", required=false) String orario,
 			@RequestParam("nomeFilm") String nomeFilm,
 			@RequestParam(value="annoFilm", required=false) Integer annoFilm,
 			Model model, BindingResult bindingResult)
@@ -71,8 +67,8 @@ public class ProiezioneController {
 	
 	@RequestMapping(value = "/removeProiezione", method = RequestMethod.POST)
 	public String removeProiezione(@RequestParam("sala") String sala,
-			@RequestParam(value="data", required=false) @DateTimeFormat(iso = ISO.DATE) LocalDate data,
-			@RequestParam(value="ora", required=false) @DateTimeFormat(iso = ISO.TIME) LocalTime orario,
+			@RequestParam(value="data", required=false) String data,
+			@RequestParam(value="ora", required=false) String orario,
 			Model model)
 	{
 		Proiezione p;

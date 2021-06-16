@@ -1,7 +1,5 @@
 package it.uniroma3.siw.cineforum.model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,9 +26,9 @@ public @Data class Proiezione {
 	
 	private Integer postiTotali;
 	
-	private LocalDate data;
+	private String data;
 	
-	private LocalTime orario;
+	private String orario;
 
 	/*ASSOCIAZIONI*/
 	

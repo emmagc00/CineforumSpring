@@ -1,12 +1,8 @@
 package it.uniroma3.siw.cineforum.controller;
 
-import java.time.LocalDate;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -58,7 +54,7 @@ public class HomePrenotazioneController {
 	public String savePrenotazione(@ModelAttribute("attore") Prenotazione p,
 			@RequestParam("nomeSala") String nomeSala,
 			@RequestParam("username") String username,
-			@RequestParam(value="data", required=false) @DateTimeFormat(iso = ISO.DATE) LocalDate data,
+			@RequestParam(value="data", required=false) String data,
 			@RequestParam(value="numeroPosti", required=false) Integer numeroPosti,
 			Model model, BindingResult bindingResult)
 	{

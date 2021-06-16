@@ -1,6 +1,5 @@
 package it.uniroma3.siw.cineforum.service;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -66,7 +65,7 @@ public class PrenotazioneService {
 
 
 	@Transactional
-	public Prenotazione savePrenotazioneToDB(String nomeSala, String username, LocalDate data, Integer numeroPosti) {
+	public Prenotazione savePrenotazioneToDB(String nomeSala, String username, String data, Integer numeroPosti) {
 		Prenotazione p = new Prenotazione();
 		
 		p.setNumeroPosti(numeroPosti);
